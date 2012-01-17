@@ -1424,6 +1424,13 @@ void ScummEngine_v2::o2_delay() {
 	delay |= fetchScriptByte() << 16;
 	delay = 0xFFFFFF - delay;
 
+	int script = vm.slot[_currentScript].number;
+	if ((_game.version == 0 && script == 132) || 
+		(_game.version == 1 && script == 137)) {
+		if (delay == 180)
+			delay = 120;
+	}
+
 	vm.slot[_currentScript].delay = delay;
 	vm.slot[_currentScript].status = ssPaused;
 	o5_breakHere();
