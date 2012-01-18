@@ -715,16 +715,12 @@ ScummEngine_v0::ScummEngine_v0(OSystem *syst, const DetectorResult &dr)
 	_currentMode = 0;
 
 	_activeVerb = kVerbNone;
-	_activeObjectNr = 0;
-	_activeObjectType = 0;
-	_activeObject2Nr = 0;
-	_activeObject2Type = 0;
+	_activeObject = 0;
+	_activeObject2 = 0;
 
 	_cmdVerb = kVerbNone;
-	_cmdObjectNr = 0;
-	_cmdObjectType = 0;
-	_cmdObject2Nr = 0;
-	_cmdObject2Type = 0;
+	_cmdObject = 0;
+	_cmdObject2 = 0;
 
 	VAR_ACTIVE_OBJECT2 = 0xFF;
 	VAR_IS_SOUND_RUNNING = 0xFF;
@@ -1967,6 +1963,14 @@ Common::Error ScummEngine::go() {
 		int delta = (VAR_TIMER_NEXT != 0xFF) ? VAR(VAR_TIMER_NEXT) : 4;
 		if (delta < 1)	// Ensure we don't get into an endless loop
 			delta = 1;  // by not decreasing sleepers.
+
+		// WORKAROUND: walking speed in the original v0/v1 interpreter 
+		// is sometimes slower (e.g. during scrolling) than in ScummVM.
+		// This is important for the door-closing action in the dungeon,
+		// otherwise (delta < 6) a single kid is able to escape. 
+		if ((_game.version == 0 && isScriptRunning(132)) || 
+			(_game.version == 1 && isScriptRunning(137)))
+			delta = 6;
 
 		// Wait...
 		waitForTimer(delta * 1000 / 60 - diff);
