@@ -202,7 +202,7 @@ public:
 	void adjustActorPos();
 	virtual AdjustBoxResult adjustXYToBeInBox(int dstX, int dstY);
 
-	void setDirection(int direction);
+	virtual void setDirection(int direction);
 	void faceToObject(int obj);
 	void turnToDirection(int newdir);
 	virtual void walkActor();
@@ -352,12 +352,24 @@ public:
 	byte _miscflags;
 	byte _speaking, _speakingPrev;
 
+    int8 _byte_FDE8;
+    int8 _byte_FD0A;
+    int8 _byte_FCE2[8];
+    
+
 public:
 	ActorC64(ScummEngine *scumm, int id) : Actor_v2(scumm, id) {
 		 _costCommand = 0;
 		 _costFrame = 0;
 		 _speaking = 0;
 		 _speakingPrev = 0;
+         _byte_FD0A = 0;
+         _byte_FDE8 = 0;
+
+         // Reset the limb counter?
+         for( int i = 0; i < sizeof( _byte_FCE2 ); ++i )
+             _byte_FCE2[i] = 0;
+
 	}
 	virtual void initActor(int mode) {
 		Actor_v2::initActor(mode);
@@ -365,6 +377,9 @@ public:
 			_miscflags = 0;
 		}
 	}
+
+    virtual void animateActor(int anim);
+    virtual void setDirection(int direction);
 
 	// Used by the save/load system:
 	virtual void saveLoadWithSerializer(Serializer *ser);

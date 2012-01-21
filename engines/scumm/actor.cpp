@@ -319,6 +319,9 @@ int Actor::actorWalkStep() {
 	int distX, distY;
 	int nextFacing;
 
+    if( _vm->_game.version == 0 )
+        ((ActorC64*) this)->_byte_FD0A = -1;
+
 	_needRedraw = true;
 
 	nextFacing = updateActorDirection(true);
@@ -847,7 +850,7 @@ void Actor::setDirection(int direction) {
 		direction = 90;
 
 	// Do nothing if actor is already facing in the given direction
-	if (_facing == direction)
+	if (_vm->_game.version != 0 && _facing == direction)
 		return;
 
 	// Normalize the angle
@@ -857,16 +860,6 @@ void Actor::setDirection(int direction) {
 	if (_costume == 0)
 		return;
 
-	// V0 MM
-	if (_vm->_game.version == 0) {
-		if (_moving)
-			_vm->_costumeLoader->costumeDecodeData(this, _walkFrame, 0);
-		else
-			_vm->_costumeLoader->costumeDecodeData(this, _standFrame, 0);
-		_needRedraw = true;
-		return;
-	}
-
 	// Update the costume for the new direction (and mark the actor for redraw)
 	aMask = 0x8000;
 	for (i = 0; i < 16; i++, aMask >>= 1) {
@@ -875,6 +868,27 @@ void Actor::setDirection(int direction) {
 			continue;
 		_vm->_costumeLoader->costumeDecodeData(this, vald, (_vm->_game.version <= 2) ? 0xFFFF : aMask);
 	}
+
+	_needRedraw = true;
+}
+
+void ActorC64::setDirection(int direction) {
+
+    // Normalize the angle
+	_facing = normalizeAngle(direction);
+
+     // 0x2C17
+   // _byte_FDE8 = -1;
+
+	// If there is no costume set for this actor, we are finished
+	if (_costume == 0)
+		return;
+
+    if (_moving)
+		_vm->_costumeLoader->costumeDecodeData(this, _walkFrame, 0);
+	else {
+		_vm->_costumeLoader->costumeDecodeData(this, _standFrame, 0);
+    }
 
 	_needRedraw = true;
 }
@@ -1286,6 +1300,10 @@ void Actor::showActor() {
 	_vm->ensureResourceLoaded(rtCostume, _costume);
 
 	if (_vm->_game.version == 0) {
+
+        // 0x39DF
+        ((ActorC64*) this)->_byte_FDE8 = 1;
+
 		_cost.reset();
 		startAnimActor(_standFrame);
 	} else if (_vm->_game.version <= 2) {
@@ -1811,7 +1829,6 @@ void Actor::animateActor(int anim) {
 		dir = anim % 1000;
 
 	} else {
-
 		cmd = anim / 4;
 		dir = oldDirToNewDir(anim % 4);
 
@@ -2643,6 +2660,45 @@ void ScummEngine_v71he::queueAuxEntry(int actorNum, int subIndex) {
 }
 #endif
 
+void ActorC64::animateActor(int anim) {
+    int dir = oldDirToNewDir(anim % 4);
+
+    if( this->isInCurrentRoom() ) {
+
+      // this->_costCommandNew = anim;
+
+       // 0x273A
+       /*switch( anim ) {
+            case 4:
+                dir = 1;
+                break;
+            case 5:
+                dir = 0;
+                break;
+            case 6:
+                dir = 0x80;
+                break;
+            case 7:
+                dir = 0x81;
+                break;
+
+            default:
+                return;
+        }*/
+
+                
+        this->_byte_FD0A = this->_byte_FDE8;
+
+        this->setDirection( dir );
+
+    } else {
+
+        if( anim > 4 ) { 
+            if( anim <= 7 )
+                this->setDirection( dir );
+        }
+    }
+}
 
 void ActorC64::saveLoadWithSerializer(Serializer *ser) {
 	Actor::saveLoadWithSerializer(ser);
@@ -2653,6 +2709,9 @@ void ActorC64::saveLoadWithSerializer(Serializer *ser) {
 		MKLINE(ActorC64, _miscflags, sleByte, VER(84)),
 		MKLINE(ActorC64, _speaking, sleByte, VER(84)),
 		MKLINE(ActorC64, _speakingPrev, sleByte, VER(84)),
+        MKLINE(ActorC64, _byte_FD0A, sleByte, VER(89)),
+        MKLINE(ActorC64, _byte_FDE8, sleByte, VER(89)),
+        MKARRAY(ActorC64, _byte_FCE2, sleInt8, 8, VER(89)),
 		MKEND()
 	};
 
