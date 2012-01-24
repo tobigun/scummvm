@@ -1619,7 +1619,7 @@ fi;
 # However, some platforms use GNU extensions in system header files, so
 # for these we must not use -pedantic.
 case $_host_os in
-android | gamecube | psp | wii)
+android | gamecube | psp | wii | webos)
 	;;
 *)
 	# ICC does not support pedantic, while GCC and clang do.
@@ -1932,7 +1932,7 @@ case $_host_os in
 		# Now we may have MacPorts or Fink installed
 		# Which put libraries and headers in non-standard places
 		# Checking them here
-		
+
 		# MacPorts
 		# There is no way to get the prefix, so implementing a hack here
 		macport_version=`port version 2>/dev/null`
@@ -2088,6 +2088,7 @@ case $_host_os in
 		LIBS="$LIBS -lnsl -lsocket"
 		;;
 	webos)
+		CXXFLAGS="$CXXFLAGS --sysroot=$WEBOS_PDK/arm-gcc/sysroot"
 		CXXFLAGS="$CXXFLAGS -I$WEBOS_PDK/include"
 		CXXFLAGS="$CXXFLAGS -I$WEBOS_PDK/include/SDL"
 		CXXFLAGS="$CXXFLAGS -I$WEBOS_PDK/device/usr/include"

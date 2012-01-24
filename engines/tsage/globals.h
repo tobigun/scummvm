@@ -242,6 +242,11 @@ namespace Ringworld2 {
 #define SPEECH_TEXT 1
 #define SPEECH_VOICE 2
 
+#define k5A78C 15
+#define k5A78D 16
+#define k5A790 18
+#define k5A791 17
+
 class Ringworld2Globals: public TsAGE2Globals {
 public:
 	ASoundExt _sound1, _sound2, _sound3, _sound4;
@@ -252,16 +257,20 @@ public:
 	Rect _v558B6;
 	int _v558C2;
 	int _v565F5;
+	int _v565F6;
+	int _v565FA;
 	int _v5657C;
 	byte _v565AE;
 	byte _v56605[14];
 	int _v566A6;
+	byte _v566A3;
 	byte _v566A8;
 	byte _v566A9;
 	byte _v566AA;
 	byte _v566AB[1000];
 	int _v56A93;
 	byte _v56A99;
+	int _scene1925CurrLevel; //_v56A9C
 	int _v56A9E;
 	byte _v56AA0;
 	byte _v56AA1;

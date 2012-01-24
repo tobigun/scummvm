@@ -136,7 +136,7 @@ class Scene1200 : public SceneExt {
 		Area1();
 		void synchronize(Serializer &s);
 
-		virtual void postInit();
+		virtual void postInit(SceneObjectList *OwnerList = NULL);
 		virtual void remove();
 		virtual void process(Event &event);
 		virtual void proc12(int visage, int stripFrameNum, int frameNum, int posX, int posY);
@@ -162,6 +162,7 @@ class Scene1200 : public SceneExt {
 		int sub51AF8(Common::Point pt);
 		bool sub51AFD(Common::Point pt);
 		void sub9EDE8(Rect rect);
+		int sub9EE22(int &arg1, int &arg2);
 		virtual Common::String getClassName() { return "UnkObject1200"; }
 	};
 		
@@ -181,6 +182,8 @@ public:
 
 	Scene1200();
 	void synchronize(Serializer &s);
+
+	void sub9DAD6(int indx);
 
 	virtual void postInit(SceneObjectList *OwnerList = NULL);
 	virtual void signal();
@@ -227,6 +230,11 @@ public:
 };
 
 class Scene1550 : public SceneExt {
+	class SceneActor1550 : public SceneActor {
+	public:
+		void subA4D14(int frameNumber, int strip);
+	};
+
 	class UnkObj15501 : public SceneActor {
 	public:
 		int _fieldA4;
@@ -246,6 +254,7 @@ class Scene1550 : public SceneExt {
 		void synchronize(Serializer &s);
 
 		virtual bool startAction(CursorType action, Event &event);
+		void subA5CDF(int strip);
 	};
 
 	class UnkObj15503 : public SceneActor {
@@ -266,7 +275,9 @@ class Scene1550 : public SceneExt {
 		UnkObj15503 _unkObj155032;
 
 		virtual void remove();
+		virtual void process(Event &event);
 		virtual void proc12(int visage, int stripFrameNum, int frameNum, int posX, int posY);
+		virtual void proc13(int resNum, int lookLineNum, int talkLineNum, int useLineNum);
 	};
 
 	class Hotspot1 : public NamedHotspot {
@@ -319,7 +330,7 @@ class Scene1550 : public SceneExt {
 		virtual bool startAction(CursorType action, Event &event);
 	};
 
-	class Actor14 : public SceneActor {
+	class Actor14 : public SceneActor1550 {
 		// Nothing specific found in the original
 		// TODO: check if it's an useless class
 	};
@@ -363,6 +374,7 @@ public:
 
 	Scene1550();
 	void synchronize(Serializer &s);
+	void subA2B2F();
 
 	virtual void postInit(SceneObjectList *OwnerList = NULL);
 	virtual void signal();
@@ -370,6 +382,423 @@ public:
 	virtual void dispatch();
 	virtual void saveCharacter(int characterIndex);
 };
+
+class Scene1575 : public SceneExt {
+	class Hotspot1 : public NamedHotspot {
+	public:
+		int _field34;
+		int _field36;
+		
+		Hotspot1();
+		void synchronize(Serializer &s);
+		void subA910D(int indx);
+
+		virtual void process(Event &event);
+		virtual bool startAction(CursorType action, Event &event);
+	};
+public:
+	int _field412;
+	int _field414;
+	int _field416;
+	int _field418;
+	int _field41A;
+	Hotspot1 _item1;
+	Hotspot1 _item2;
+	Hotspot1 _item3;
+	Hotspot1 _item4;
+	Hotspot1 _item5;
+	Hotspot1 _item6;
+	SceneActor _actor1;
+	SceneActor _actor2;
+	SceneActor _actor3;
+	SceneActor _actor4;
+	SceneActor _actor5;
+	SceneActor _actor6;
+	SceneActor _actor7;
+	SceneActor _actor8;
+	SceneActor _actor9;
+	SceneActor _actor10;
+	SceneActor _actor11;
+	SceneActor _actor12;
+	SceneActor _actor13;
+	SceneActor _actor14;
+	SceneActor _actor15;
+	SceneActor _arrActor[17];
+	SequenceManager _sequenceManager1;
+
+	Scene1575();
+	void synchronize(Serializer &s);
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void remove();
+	virtual void signal();
+	virtual void process(Event &event);
+	virtual void dispatch();
+};
+
+class Scene1580 : public SceneExt {
+	class Hotspot1 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Hotspot2 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+	class Actor2 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor3 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor4 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor5 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor6 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor7 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+public:
+	int _field412;
+	SpeakerQuinn _quinnSpeaker;
+	SpeakerSeeker _seekerSpeaker;
+	Hotspot1 _item1;
+	Hotspot2 _item2;
+	NamedHotspot _item3;
+	SceneActor _actor1;
+	SceneActor _arrActor[8];
+	Actor2 _actor2;
+	Actor3 _actor3;
+	Actor4 _actor4;
+	Actor5 _actor5;
+	Actor6 _actor6;
+	Actor7 _actor7;
+	SequenceManager _sequenceManager;
+
+	Scene1580();
+	void synchronize(Serializer &s);
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void signal();
+};
+
+class Scene1625 : public SceneExt {
+	class Actor7 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+public:
+	int _field412;
+	SpeakerMiranda1625 _mirandaSpeaker;
+	SpeakerTeal1625 _tealSpeaker;
+	SpeakerSoldier1625 _soldierSpeaker;
+	NamedHotspot _item1;
+	SceneActor _actor1;
+	SceneActor _actor2;
+	SceneActor _actor3;
+	SceneActor _actor4;
+	SceneActor _actor5;
+	SceneActor _actor6;
+	Actor7 _actor7;
+	SequenceManager _sequenceManager;
+
+	Scene1625();
+	void synchronize(Serializer &s);
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void remove();
+	virtual void signal();
+	virtual void process(Event &event);
+};
+
+class Scene1700 : public SceneExt {
+	class Item2 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+	class Actor11 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor12 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+	class Exit1 : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+	class Exit2 : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+	class Exit3 : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+public:
+	SpeakerQuinn _quinnSpeaker;
+	SpeakerSeeker _seekerSpeaker;
+	NamedHotspot _item1;
+	Item2 _item2;
+	SceneActor _actor1;
+	SceneActor _actor2;
+	SceneActor _actor3;
+	SceneActor _actor4;
+	SceneActor _actor5;
+	SceneActor _actor6;
+	SceneActor _actor7;
+	SceneActor _actor8;
+	SceneActor _actor9;
+	SceneActor _actor10;
+	Actor11 _actor11;
+	Actor12 _actor12;
+	Exit1 _exit1;
+	Exit2 _exit2;
+	Exit3 _exit3;
+	SequenceManager _sequenceManager;
+	
+	int _field77A;
+	int _field77C;
+
+	Scene1700();
+	void synchronize(Serializer &s);
+	void subAF3F8();
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void remove();
+	virtual void signal();
+};
+
+class Scene1800 : public SceneExt {
+	class Hotspot5 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+	class Actor6 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor7 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor8 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	
+	class Exit1 : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+public:
+	int _field412;
+	SpeakerQuinn _quinnSpeaker;
+	SpeakerSeeker _seekerSpeaker;
+	NamedHotspot _item1;
+	NamedHotspot _item2;
+	NamedHotspot _item3;
+	NamedHotspot _item4;
+	Hotspot5 _item5;
+	SceneActor _actor1;
+	SceneActor _actor2;
+	SceneActor _actor3;
+	SceneActor _actor4;
+	SceneActor _actor5;
+	Actor6 _actor6;
+	Actor7 _actor7;
+	Actor8 _actor8;
+	Actor8 _actor9;
+	Exit1 _exit1;
+	SequenceManager _sequenceManager;
+
+	Scene1800();
+	void synchronize(Serializer &s);
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void signal();
+	virtual void saveCharacter(int characterIndex);
+};
+
+class Scene1875 : public SceneExt {
+	class Actor1875 : public SceneActor {
+	public:
+		int _fieldA4;
+		int _fieldA6;
+		
+		Actor1875();
+		void subB84AB();
+		void subB8271(int indx);
+		
+		void synchronize(Serializer &s);
+		virtual void process(Event &event);
+	};
+public:
+	SpeakerQuinn _quinnSpeaker;
+	SpeakerSeeker _seekerSpeaker;
+	NamedHotspot _item1;
+	NamedHotspot _item2;
+	SceneActor _actor1;
+	SceneActor _actor2;
+	SceneActor _actor3;
+	Actor1875 _actor4;
+	Actor1875 _actor5;
+	Actor1875 _actor6;
+	Actor1875 _actor7;
+	Actor1875 _actor8;
+	SequenceManager _sequenceManager;
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void signal();
+	virtual void process(Event &event);
+};
+
+class Scene1900 : public SceneExt {
+	class Actor2 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+	class Exit1 : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+	class Exit2 : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+public:
+	SpeakerSeeker1900 _seekerSpeaker;
+	NamedHotspot _item1;
+	NamedHotspot _item2;
+	SceneActor _actor1;
+	BackgroundSceneObject _object1;
+	BackgroundSceneObject _object2;
+	Actor2 _actor2;
+	Actor2 _actor3;
+	Exit1 _exit1;
+	Exit2 _exit2;
+	SequenceManager _sequenceManager1;
+	SequenceManager _sequenceManager2;
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void remove();
+	virtual void signal();
+};
+
+class Scene1925 : public SceneExt {
+	class Hotspot2 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Hotspot3 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+	class ExitUp : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+	class Exit2 : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+	class Exit3 : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+	class Exit4 : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+public:
+	NamedHotspot _item1;
+	Hotspot2 _item2;
+	Hotspot3 _item3;
+	SceneActor _actor1;
+	ExitUp _exitUp;
+	Exit2 _exit2;
+	Exit3 _exit3;
+	Exit4 _exit4;
+	SequenceManager _sequenceManager;
+
+	int _field9B8;
+	int _levelResNum[5];
+
+	Scene1925();
+	void synchronize(Serializer &s);
+
+	void changeLevel(bool upFlag);
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void remove();
+	virtual void signal();
+};
+
+class Scene1945 : public SceneExt {
+	class Hotspot3 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Hotspot4 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+	class Actor3 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+	class ExitUp : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+	class Exit2 : public SceneExit {
+	public:
+		virtual void changeScene();
+	};
+public:
+	NamedHotspot _item1;
+	NamedHotspot _item2;
+	Hotspot3 _item3;
+	Hotspot4 _item4;
+	SceneActor _actor1;
+	SceneActor _actor2;
+	Actor3 _actor3;
+	ExitUp _exitUp;
+	Exit2 _exit2;
+	SequenceManager _sequenceManager1;
+	SequenceManager _sequenceManager2;
+
+	int _fieldEAA;
+	int _fieldEAC;
+	CursorType _fieldEAE;
+
+	Scene1945();
+	void synchronize(Serializer &s);
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void remove();
+	virtual void signal();
+};
+
 } // End of namespace Ringworld2
 } // End of namespace TsAGE
 

@@ -166,6 +166,26 @@ public:
 	virtual void signal();
 };
 
+class Scene160: public SceneExt {
+	class Action1: public Action {
+	public:
+		void signal();
+	};
+public:
+	ASound _sound1;
+	Action1 _action1;
+	int _frameNumber, _yChange;
+	SceneObject _object1, _object2, _object3;
+	int _lineNum;
+	SynchronizedList<SceneText *> _creditsList;
+public:
+	Scene160();
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void synchronize(Serializer &s);
+	virtual void remove();
+	virtual void process(Event &event);
+};
+
 class Scene175: public Scene150 {
 };
 
@@ -420,6 +440,85 @@ public:
 	virtual void remove();
 	virtual void signal();
 	virtual void dispatch();
+};
+
+class Scene500: public SceneExt {
+	/* Items */
+	class ControlPanel: public SceneHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	
+	/* Objects */
+	class Object2: public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Object3: public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Doorway: public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class OxygenTanks: public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class AirLock: public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Object8: public SceneActor {
+		// This classes uses a custom draw method
+	};
+	class Aerosol: public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class SonicStunner: public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Locker1: public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Locker2: public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Object: public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+public:
+	int _stripNumber;
+	byte _buffer[2710];
+	SpeakerSeeker _seekerSpeaker;
+	SpeakerQuinn _quinnSpeaker;
+	SceneHotspot _background, _item2;
+	ControlPanel _controlPanel;
+	SceneActor _object1;
+	Object2 _object2;
+	Object3 _object3;
+	Doorway _doorway;
+	OxygenTanks _tanks1, _tanks2;
+	AirLock _airLock;
+	Object8 _object8;
+	Aerosol _aerosol;
+	SonicStunner _sonicStunner;
+	Locker1 _locker1;
+	Locker2 _locker2;
+	SceneAreaObject _area1;
+	Object _obj1, _obj2, _obj3;
+	ASoundExt _sound1;
+	SequenceManager _sequenceManager1, _sequenceManager2;
+public:
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void synchronize(Serializer &s);
+	virtual void signal();
 };
 
 class Scene800: public SceneExt {
