@@ -806,6 +806,7 @@ public:
 	int getDist(int x, int y, int x2, int y2);	// Also used in actor.cpp
 protected:
 
+	bool getObjActToObjActXYDists(int a, int b, int &distX, int &distY);
 	int getObjActToObjActDist(int a, int b); // Not sure how to handle
 	const byte *getObjOrActorName(int obj);		 // these three..
 	void setObjectName(int obj);
