@@ -458,7 +458,7 @@ int ScummEngine::getDist(int x, int y, int x2, int y2) {
 	return MAX(a, b);
 }
 
-bool ScummEngine::getObjActToObjActXYDists(int a, int b, int &distX, int &distY) {
+int ScummEngine::getObjActToObjActDist(int a, int b) {
 	int x, y, x2, y2;
 	Actor *acta = NULL;
 	Actor *actb = NULL;
@@ -469,17 +469,14 @@ bool ScummEngine::getObjActToObjActXYDists(int a, int b, int &distX, int &distY)
 	if (objIsActor(b))
 		actb = derefActorSafe(objToActor(b), "getObjActToObjActDist(2)");
 
-	if (acta && actb && acta->getRoom() == actb->getRoom() && acta->getRoom() && !acta->isInCurrentRoom()) {
-		distX = 0;
-		distY = 0;
-		return true;
-	}
+	if (acta && actb && acta->getRoom() == actb->getRoom() && acta->getRoom() && !acta->isInCurrentRoom())
+		return 0;
 
 	if (getObjectOrActorXY(a, x, y) == -1)
-		return false;
+		return 0xFF;
 
 	if (getObjectOrActorXY(b, x2, y2) == -1)
-		return false;
+		return 0xFF;
 
 	// Perform adjustXYToBeInBox() *only* if the first item is an
 	// actor and the second is an object. This used to not check
@@ -491,16 +488,9 @@ bool ScummEngine::getObjActToObjActXYDists(int a, int b, int &distX, int &distY)
 		y2 = r.y;
 	}
 
-	distX = ABS(x - x2);
-	distY = ABS(y - y2);
-	return true;
-}
 
-int ScummEngine::getObjActToObjActDist(int a, int b) {
-	int distX, distY;
-	if (!getObjActToObjActXYDists(a, b, distX, distY))
-		return 0xFF;
-	return MAX(distX, distY);
+	// Now compute the distance between the two points
+	return getDist(x, y, x2, y2);
 }
 
 int ScummEngine::findObject(int x, int y) {
