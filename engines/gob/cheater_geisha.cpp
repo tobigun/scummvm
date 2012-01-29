@@ -20,58 +20,47 @@
  *
  */
 
-#ifndef GOB_SOUND_BGATMOSPHERE_H
-#define GOB_SOUND_BGATMOSPHERE_H
+#include "gui/debugger.h"
 
-#include "audio/mixer.h"
-#include "common/array.h"
-#include "common/mutex.h"
-#include "common/random.h"
+#include "gob/gob.h"
+#include "gob/cheater.h"
+#include "gob/inter.h"
 
-#include "gob/sound/soundmixer.h"
+#include "gob/minigames/geisha/diving.h"
 
 namespace Gob {
 
-class SoundDesc;
+Cheater_Geisha::Cheater_Geisha(GobEngine *vm, Geisha::Diving *diving) :
+	Cheater(vm), _diving(diving) {
 
-class BackgroundAtmosphere : private SoundMixer {
-public:
-	enum PlayMode {
-		kPlayModeLinear,
-		kPlayModeRandom
-	};
+}
 
-	BackgroundAtmosphere(Audio::Mixer &mixer);
-	~BackgroundAtmosphere();
+Cheater_Geisha::~Cheater_Geisha() {
+}
 
-	void playBA();
-	void stopBA();
+bool Cheater_Geisha::cheat(GUI::Debugger &console) {
+	// A cheat to get around the Diving minigame
+	if (_diving->isPlaying()) {
+		_diving->cheatWin();
+		return false;
+	}
 
-	void setPlayMode(PlayMode mode);
+	// A cheat to get around the mastermind puzzle
+	if (_vm->isCurrentTot("hard.tot") && _vm->_inter->_variables) {
+		uint32 digit1 = READ_VARO_UINT32(0x768);
+		uint32 digit2 = READ_VARO_UINT32(0x76C);
+		uint32 digit3 = READ_VARO_UINT32(0x770);
+		uint32 digit4 = READ_VARO_UINT32(0x774);
+		uint32 digit5 = READ_VARO_UINT32(0x778);
 
-	void queueSample(SoundDesc &sndDesc);
-	void queueClear();
+		if (digit1 && digit2 && digit3 && digit4 && digit5)
+			console.DebugPrintf("Mastermind solution: %d %d %d %d %d\n",
+			                    digit1, digit2, digit3, digit4, digit5);
 
-	void setShadable(bool shadable);
-	void shade();
-	void unshade();
+		return true;
+	}
 
-private:
-	PlayMode _playMode;
-
-	Common::Array<SoundDesc *> _queue;
-	int _queuePos;
-	bool _shaded;
-	bool _shadable;
-
-	Common::Mutex _mutex;
-
-	Common::RandomSource _rnd;
-
-	void checkEndSample();
-	void getNextQueuePos();
-};
+	return true;
+}
 
 } // End of namespace Gob
-
-#endif // GOB_SOUND_BGATMOSPHERE_H

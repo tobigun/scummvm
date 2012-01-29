@@ -20,58 +20,43 @@
  *
  */
 
-#ifndef GOB_SOUND_BGATMOSPHERE_H
-#define GOB_SOUND_BGATMOSPHERE_H
+#ifndef GOB_CHEATER_H
+#define GOB_CHEATER_H
 
-#include "audio/mixer.h"
-#include "common/array.h"
-#include "common/mutex.h"
-#include "common/random.h"
-
-#include "gob/sound/soundmixer.h"
+namespace GUI {
+	class Debugger;
+}
 
 namespace Gob {
 
-class SoundDesc;
+namespace Geisha {
+	class Diving;
+}
 
-class BackgroundAtmosphere : private SoundMixer {
+class GobEngine;
+
+class Cheater {
 public:
-	enum PlayMode {
-		kPlayModeLinear,
-		kPlayModeRandom
-	};
+	Cheater(GobEngine *vm);
+	virtual ~Cheater();
 
-	BackgroundAtmosphere(Audio::Mixer &mixer);
-	~BackgroundAtmosphere();
+	virtual bool cheat(GUI::Debugger &console) = 0;
 
-	void playBA();
-	void stopBA();
+protected:
+	GobEngine *_vm;
+};
 
-	void setPlayMode(PlayMode mode);
+class Cheater_Geisha : public Cheater {
+public:
+	Cheater_Geisha(GobEngine *vm, Geisha::Diving *diving);
+	~Cheater_Geisha();
 
-	void queueSample(SoundDesc &sndDesc);
-	void queueClear();
-
-	void setShadable(bool shadable);
-	void shade();
-	void unshade();
+	bool cheat(GUI::Debugger &console);
 
 private:
-	PlayMode _playMode;
-
-	Common::Array<SoundDesc *> _queue;
-	int _queuePos;
-	bool _shaded;
-	bool _shadable;
-
-	Common::Mutex _mutex;
-
-	Common::RandomSource _rnd;
-
-	void checkEndSample();
-	void getNextQueuePos();
+	Geisha::Diving *_diving;
 };
 
 } // End of namespace Gob
 
-#endif // GOB_SOUND_BGATMOSPHERE_H
+#endif // GOB_CHEATER_H

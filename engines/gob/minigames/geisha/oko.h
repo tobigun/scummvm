@@ -20,58 +20,65 @@
  *
  */
 
-#ifndef GOB_SOUND_BGATMOSPHERE_H
-#define GOB_SOUND_BGATMOSPHERE_H
+#ifndef GOB_MINIGAMES_GEISHA_OKO_H
+#define GOB_MINIGAMES_GEISHA_OKO_H
 
-#include "audio/mixer.h"
-#include "common/array.h"
-#include "common/mutex.h"
-#include "common/random.h"
-
-#include "gob/sound/soundmixer.h"
+#include "gob/aniobject.h"
 
 namespace Gob {
 
+class Sound;
 class SoundDesc;
 
-class BackgroundAtmosphere : private SoundMixer {
+namespace Geisha {
+
+/** Oko, the person you control, in Geisha's "Diving" minigame. */
+class Oko : public ANIObject {
 public:
-	enum PlayMode {
-		kPlayModeLinear,
-		kPlayModeRandom
+	enum State {
+		kStateEnter,
+		kStateSwim,
+		kStateSink,
+		kStateRaise,
+		kStateBreathe,
+		kStatePick,
+		kStateHurt,
+		kStateDead
 	};
 
-	BackgroundAtmosphere(Audio::Mixer &mixer);
-	~BackgroundAtmosphere();
+	Oko(const ANIFile &ani, Sound &sound, SoundDesc &breathe);
+	~Oko();
 
-	void playBA();
-	void stopBA();
+	/** Advance the animation to the next frame. */
+	void advance();
 
-	void setPlayMode(PlayMode mode);
+	/** Oko should sink a level. */
+	void sink();
+	/** Oko should raise a level. */
+	void raise();
 
-	void queueSample(SoundDesc &sndDesc);
-	void queueClear();
+	/** Oko should get hurt. */
+	void hurt();
 
-	void setShadable(bool shadable);
-	void shade();
-	void unshade();
+	/** Oko should die. */
+	void die();
+
+	State getState() const;
+
+	bool isBreathing() const;
+	bool isMoving() const;
 
 private:
-	PlayMode _playMode;
+	Sound *_sound;
+	SoundDesc *_breathe;
 
-	Common::Array<SoundDesc *> _queue;
-	int _queuePos;
-	bool _shaded;
-	bool _shadable;
+	State _state;
 
-	Common::Mutex _mutex;
-
-	Common::RandomSource _rnd;
-
-	void checkEndSample();
-	void getNextQueuePos();
+	uint8 _level;
 };
+
+} // End of namespace Geisha
 
 } // End of namespace Gob
 
-#endif // GOB_SOUND_BGATMOSPHERE_H
+#endif // GOB_MINIGAMES_GEISHA_OKO_H

@@ -20,58 +20,15 @@
  *
  */
 
-#ifndef GOB_SOUND_BGATMOSPHERE_H
-#define GOB_SOUND_BGATMOSPHERE_H
-
-#include "audio/mixer.h"
-#include "common/array.h"
-#include "common/mutex.h"
-#include "common/random.h"
-
-#include "gob/sound/soundmixer.h"
+#include "gob/gob.h"
+#include "gob/cheater.h"
 
 namespace Gob {
 
-class SoundDesc;
+Cheater::Cheater(GobEngine *vm) : _vm(vm) {
+}
 
-class BackgroundAtmosphere : private SoundMixer {
-public:
-	enum PlayMode {
-		kPlayModeLinear,
-		kPlayModeRandom
-	};
-
-	BackgroundAtmosphere(Audio::Mixer &mixer);
-	~BackgroundAtmosphere();
-
-	void playBA();
-	void stopBA();
-
-	void setPlayMode(PlayMode mode);
-
-	void queueSample(SoundDesc &sndDesc);
-	void queueClear();
-
-	void setShadable(bool shadable);
-	void shade();
-	void unshade();
-
-private:
-	PlayMode _playMode;
-
-	Common::Array<SoundDesc *> _queue;
-	int _queuePos;
-	bool _shaded;
-	bool _shadable;
-
-	Common::Mutex _mutex;
-
-	Common::RandomSource _rnd;
-
-	void checkEndSample();
-	void getNextQueuePos();
-};
+Cheater::~Cheater() {
+}
 
 } // End of namespace Gob
-
-#endif // GOB_SOUND_BGATMOSPHERE_H
