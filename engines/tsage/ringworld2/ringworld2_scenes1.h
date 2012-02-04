@@ -142,35 +142,12 @@ class Scene1200 : public SceneExt {
 		virtual void proc12(int visage, int stripFrameNum, int frameNum, int posX, int posY);
 		virtual void proc13(int resNum, int lookLineNum, int talkLineNum, int useLineNum);
 	};
-
-	class Object1 : public SavedObject {
-	public:
-		Rect _rect1;
-		Rect _rect2;
-
-		int _field16;
-		int _field26;
-		int _field28;
-		int _field2A;
-		int _field2C;
-		int _field2E;
-		int _field30;
-
-		Object1();
-		void synchronize(Serializer &s);
-
-		int sub51AF8(Common::Point pt);
-		bool sub51AFD(Common::Point pt);
-		void sub9EDE8(Rect rect);
-		int sub9EE22(int &arg1, int &arg2);
-		virtual Common::String getClassName() { return "UnkObject1200"; }
-	};
 		
 public:
 	NamedHotspot _item1;
 	SceneActor _actor1;
 	Area1 _area1;
-	Object1 _object1;
+	UnkObject1200 _object1;
 	SequenceManager _sequenceManager;
 
 	int _field412;
@@ -582,6 +559,70 @@ public:
 	virtual void postInit(SceneObjectList *OwnerList = NULL);
 	virtual void remove();
 	virtual void signal();
+};
+
+class Scene1750 : public SceneExt {
+	class Actor4 : public SceneActor {
+	public:
+		int _fieldA4;
+		int _fieldA6;
+		int _fieldA8;
+		int _fieldAA;
+		int _fieldAC;
+		int _fieldAE;
+		
+		Actor4();
+		virtual void synchronize(Serializer &s);
+		void subB1A76(int arg1, int arg2, int arg3, int arg4, int arg5);
+		void subB1B27();
+
+		virtual void remove();
+		virtual void process(Event &event);
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	
+	class Actor5 : public SceneActor {
+	public:
+		int _fieldA4;
+		
+		Actor5();
+		virtual void synchronize(Serializer &s);
+
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+public:
+	NamedHotspot _item1;
+	NamedHotspot _item2;
+	NamedHotspot _item3;
+	NamedHotspot _item4;
+	NamedHotspot _item5;
+	SceneActor _actor1;
+	SceneActor _actor2;
+	SceneActor _actor3;
+	Actor4 _actor4;
+	Actor5 _actor5;
+	Actor5 _actor6;
+	Actor5 _actor7;
+	SequenceManager _sequenceManager;
+	PaletteRotation *_rotation;
+
+	int _field412;
+	int _field413;
+	int _field415;
+	int _field417;
+	int _field419;
+	int _field41B;
+	int _field41D;
+
+	Scene1750();
+	virtual void synchronize(Serializer &s);
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void remove();
+	virtual void signal();
+	virtual void process(Event &event);
+	virtual void dispatch();
 };
 
 class Scene1800 : public SceneExt {

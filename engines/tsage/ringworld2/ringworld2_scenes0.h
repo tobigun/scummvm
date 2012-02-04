@@ -226,6 +226,52 @@ public:
 	virtual void signal();
 };
 
+class Scene205: public SceneExt {
+	/* Actions */
+	class Action1: public Action {
+	private:
+		void textLoop();
+	public:
+		virtual void signal();
+	};
+
+	/* Objects */
+	class Object: public SceneObject {
+	public:
+		int _x100, _y100;
+	public:
+		Object();
+
+		virtual void synchronize(Serializer &s);
+	};
+private:
+	void setup();
+	void processList(Object **ObjList, int count, const Common::Rect &bounds, 
+					int xMultiply, int yMultiply, int xCenter, int yCenter);
+	void handleText();
+public:
+	ActionObject _actionObject;
+	int _fontHeight;
+	SceneText _textList[15];
+	Object *_objList1[3];
+	Object *_objList2[3];
+	Object *_objList3[4];
+	ASound _sound1;
+	Action1 _action1;
+	int _yp;
+	int _textIndex, _lineNum;
+	Common::String _message;
+public:
+	Scene205();
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void synchronize(Serializer &s);
+	virtual void remove();
+	virtual void process(Event &event);
+	virtual void dispatch();
+};
+
+
 class Scene250: public SceneExt {
 	class Button: public SceneActor {
 	public:
@@ -521,6 +567,141 @@ public:
 	virtual void signal();
 };
 
+class Scene525: public SceneExt {
+public:
+	SceneActor _actor1;
+	SequenceManager _sequenceManager;
+
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void signal();
+
+};
+
+class Scene600 : public SceneExt {
+	class Item1 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Item4 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+	class Actor4 : public SceneActor {
+	public:
+		virtual void signal();
+		virtual bool startAction(CursorType action, Event &event);
+		virtual void draw();
+	};
+	class Actor5 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor6 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor7 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor8 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+public:
+	int _field412;
+	Item1 _item1;
+	Item1 _item2;
+	Item1 _item3;
+	Item4 _item4;
+	Item1 _item5;
+	BackgroundSceneObject _object1;
+	SceneActor _actor1;
+	SceneActor _actor2;
+	SceneActor _actor3;
+	Actor4 _actor4;
+	Actor5 _actor5;
+	Actor6 _actor6;
+	Actor7 _actor7;
+	Actor8 _actor8;
+	ASoundExt _aSound1;
+	SequenceManager _sequenceManager1;
+	SequenceManager _sequenceManager2;
+	byte _fieldAD2[256];
+
+	Scene600();
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void remove();
+	virtual void signal();
+	virtual void process(Event &event);
+	virtual void dispatch();
+	virtual void synchronize(Serializer &s);
+};
+
+class Scene700: public SceneExt {
+	class Item11 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Item12 : public NamedHotspot {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+
+	class Actor2 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor3 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor4 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor5 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+	class Actor6 : public SceneActor {
+	public:
+		virtual bool startAction(CursorType action, Event &event);
+	};
+public:
+	NamedHotspot _item1;
+	NamedHotspot _item2;
+	NamedHotspot _item3;
+	NamedHotspot _item4;
+	NamedHotspot _item5;
+	NamedHotspot _item6;
+	NamedHotspot _item7;
+	NamedHotspot _item8;
+	NamedHotspot _item9;
+	NamedHotspot _item10;
+	Item11 _item11;
+	Item12 _item12;
+	SceneActor _actor1;
+	Actor2 _actor2;
+	Actor3 _actor3;
+	Actor4 _actor4;
+	Actor5 _actor5;
+	Actor6 _actor6;
+	Actor6 _actor7;
+	Actor6 _actor8;
+	Actor6 _actor9;
+	SequenceManager _sequenceManager;
+	PaletteRotation *_rotation;
+	int _field100E;
+
+	Scene700();
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void remove();
+	virtual void signal();
+	virtual void synchronize(Serializer &s);
+};
+
 class Scene800: public SceneExt {
 	/* Items */
 	class Button: public NamedHotspot {
@@ -644,6 +825,42 @@ public:
 
 	virtual void postInit(SceneObjectList *OwnerList = NULL);
 	virtual void signal();
+};
+
+class Scene900 : public SceneExt {
+	class Actor4 : public SceneActor {
+	public:
+    int _fieldA4;
+
+		Actor4();
+		void sub96135(int arg1);
+		virtual void synchronize(Serializer &s);
+		virtual bool startAction(CursorType action, Event &event);
+	};
+public:
+	int _field412;
+	int _field414;
+	int _field416;
+	NamedHotspot _item1;
+	SceneActor _actor1;
+	SceneActor _actor2;
+	SceneActor _actor3;
+	Actor4 _actor4;
+	Actor4 _actor5;
+	Actor4 _actor6;
+	Actor4 _actor7;
+	Actor4 _actor8;
+	Actor4 _actor9;
+	Actor4 _actor10;
+	ASoundExt _aSound1;
+	SequenceManager _sequenceManager1;
+
+	Scene900();
+	virtual void postInit(SceneObjectList *OwnerList = NULL);
+	virtual void remove();
+	virtual void signal();
+	virtual void dispatch();
+	virtual void synchronize(Serializer &s);
 };
 
 } // End of namespace Ringworld2

@@ -3656,7 +3656,7 @@ int GUI_EoB::selectCharacterDialogue(int id) {
 			}
 
 		} else if (inputFlag == _vm->_keyMap[Common::KEYCODE_KP5] || inputFlag == _vm->_keyMap[Common::KEYCODE_RETURN]) {
-			if (found >= 0)
+			if (hlCur >= 0)
 				result = hlCur;
 
 		} else if (inputFlag == _vm->_keyMap[Common::KEYCODE_ESCAPE] || inputFlag == 0x8010) {
@@ -3781,7 +3781,7 @@ void GUI_EoB::drawMenuButton(Button *b, bool clicked, bool highlight, bool noFil
 	if (!b)
 		return;
 
-	EoBMenuButtonDef *d = (EoBMenuButtonDef *)b->extButtonDef;
+	const EoBMenuButtonDef *d = (const EoBMenuButtonDef *)b->extButtonDef;
 
 	if (d->flags & 1)
 		drawMenuButtonBox(b->x, b->y, b->width, b->height, clicked, noFill);
